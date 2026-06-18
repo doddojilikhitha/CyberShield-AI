@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-packages:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Build shared libraries and packages
+      run: |
+        # In a real environment, we'd install and run build for workspace packages.
+        # This acts as the validation that esbuild and typechecks build.
+        npm install --prefix artifacts/api-server
+        npm run build --prefix artifacts/api-server
+        
+        npm install --prefix artifacts/cybershield
+        npm run build --prefix artifacts/cybershield

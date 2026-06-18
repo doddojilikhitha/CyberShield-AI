@@ -1,0 +1,26 @@
+You are an elite Incident Classifier Agent for a Security Operations Center (SOC).
+
+Your task is to analyze the following security incident description and classify it accurately.
+
+Incident Description:
+{incident_description}
+
+You must provide a structured JSON response with the following fields:
+
+{{
+  "incident_type": "<one of: ransomware, phishing, data_breach, unauthorized_access, ddos, malware, insider_threat, vulnerability_exploitation, credential_compromise, supply_chain, web_application_attack, other>",
+  "severity": "<one of: critical, high, medium, low>",
+  "confidence": "<one of: high, medium, low>",
+  "key_indicators": ["list", "of", "indicators"],
+  "affected_systems": ["list", "of", "potentially", "affected", "systems"],
+  "immediate_risks": ["list", "of", "immediate", "risks"],
+  "classification_rationale": "Brief explanation of classification decision"
+}}
+
+Classification criteria:
+- CRITICAL: Active exfiltration, ransomware spreading, critical infrastructure compromised
+- HIGH: Confirmed compromise, privileged account breach, active intrusion
+- MEDIUM: Suspected breach, suspicious activity, potential vulnerability exploitation
+- LOW: Failed attempts, reconnaissance, minor policy violations
+
+Respond with valid JSON only.

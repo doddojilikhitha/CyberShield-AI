@@ -1,0 +1,98 @@
+NIST SP 800-61 Computer Security Incident Handling Guide
+
+INCIDENT RESPONSE LIFECYCLE
+
+Phase 1: Preparation
+- Establish incident response policy and plan
+- Create incident response procedures
+- Develop incident response team (IRT)
+- Prepare communication channels
+- Implement preventive controls
+- Set up logging and monitoring infrastructure
+- Conduct regular training exercises
+
+Phase 2: Detection and Analysis
+- Monitor alerts from IDS/IPS, SIEM, and security tools
+- Analyze indicators of compromise (IOCs)
+- Prioritize incidents based on impact and criticality
+- Document all evidence and observations
+- Determine incident category and severity
+- Assign severity levels: Critical, High, Medium, Low
+- Preserve forensic evidence from affected systems
+
+Phase 3: Containment, Eradication, and Recovery
+Short-Term Containment:
+- Isolate affected systems immediately
+- Block malicious IP addresses and domains
+- Disable compromised accounts
+- Preserve volatile memory and system state
+
+Long-Term Containment:
+- Apply emergency patches
+- Rebuild compromised systems
+- Change all passwords and credentials
+- Implement additional monitoring
+
+Eradication:
+- Remove malware and backdoors
+- Identify and close attack vectors
+- Patch vulnerabilities exploited
+- Restore systems from clean backups
+
+Recovery:
+- Return systems to normal operation
+- Monitor for reinfection
+- Validate system integrity
+- Update detection capabilities
+
+Phase 4: Post-Incident Activity
+- Conduct lessons learned meeting
+- Update incident response procedures
+- Document timeline and actions taken
+- Share threat intelligence
+- Improve monitoring and detection
+
+INCIDENT CATEGORIES
+
+Category 1: Denial of Service (DoS/DDoS)
+- Response: Activate DDoS mitigation, contact ISP, implement rate limiting
+
+Category 2: Malicious Code (Malware/Ransomware)
+- Response: Isolate, scan, remove, restore from backup, patch
+
+Category 3: Unauthorized Access
+- Response: Disable accounts, audit logs, forensic investigation, reset credentials
+
+Category 4: Inappropriate Usage
+- Response: Document, HR involvement, policy enforcement
+
+Category 5: Scans/Probes/Attempted Access
+- Response: Monitor, block sources, update firewall rules
+
+Category 6: Investigation (No Confirmed Category)
+- Response: Collect data, analyze, escalate if needed
+
+SEVERITY CLASSIFICATIONS
+
+Critical: Active exploitation, data exfiltration in progress, ransomware spreading
+- Response time: Immediate (< 15 minutes)
+- Escalate to: CISO, Legal, Executive team
+
+High: Compromised credentials, malware detected, unauthorized privileged access
+- Response time: < 1 hour
+- Escalate to: Security manager, System owners
+
+Medium: Suspicious activity, policy violations, potential vulnerability exploitation
+- Response time: < 4 hours
+- Escalate to: Security team lead
+
+Low: Reconnaissance activity, failed login attempts, minor policy violations
+- Response time: < 24 hours
+- Escalate to: Security analyst
+
+COMMUNICATION GUIDELINES
+- Internal: Notify stakeholders on need-to-know basis
+- Legal: Consult before external communications
+- Law Enforcement: FBI Cyber Division, CISA
+- Regulatory: Notify within required timeframes (GDPR 72 hours, HIPAA 60 days)
+- Public: Coordinate with PR, avoid technical details

@@ -1,0 +1,135 @@
+OWASP Security Guidance for Incident Response
+
+OWASP TOP 10 WEB APPLICATION SECURITY RISKS
+
+A01:2021 - Broken Access Control
+Description: Access control enforces policy such that users cannot act outside of their intended permissions.
+Indicators: Unauthorized access to other users' data, privilege escalation, metadata manipulation
+Incident Response:
+- Immediately revoke compromised access tokens and sessions
+- Audit all access logs for the affected resource
+- Implement proper RBAC and enforce least privilege
+- Review and fix broken authorization checks in code
+- Monitor for continued unauthorized access attempts
+
+A02:2021 - Cryptographic Failures
+Description: Failures related to cryptography often lead to sensitive data exposure.
+Indicators: Unencrypted sensitive data in transit or at rest, weak cryptographic algorithms
+Incident Response:
+- Identify all exposed sensitive data
+- Notify affected users and regulators as required
+- Rotate all compromised cryptographic keys and certificates
+- Upgrade to strong encryption standards (TLS 1.3, AES-256)
+- Audit data classification and encryption policies
+
+A03:2021 - Injection (SQL, OS, LDAP)
+Description: Injection flaws occur when untrusted data is sent to an interpreter.
+Indicators: Unexpected database errors, data exfiltration, command execution
+Incident Response:
+- Immediately patch or disable vulnerable endpoint
+- Audit database for unauthorized changes or data theft
+- Review all logs for injection attempts across applications
+- Implement parameterized queries and input validation
+- Scan entire codebase for similar vulnerabilities
+
+A04:2021 - Insecure Design
+Description: Missing or ineffective security controls by design.
+Incident Response:
+- Document security design flaws
+- Implement threat modeling for affected components
+- Add security controls and validation layers
+- Review and update security architecture
+
+A05:2021 - Security Misconfiguration
+Description: Incorrectly configured security settings.
+Indicators: Default credentials in use, unnecessary features enabled, verbose error messages
+Incident Response:
+- Harden all system configurations to security baseline
+- Disable unnecessary services and features
+- Remove default accounts and credentials
+- Review cloud storage and service permissions
+- Implement automated configuration scanning
+
+A06:2021 - Vulnerable and Outdated Components
+Description: Using components with known vulnerabilities.
+Incident Response:
+- Identify all vulnerable component versions
+- Apply emergency patches immediately
+- Assess exploitation risk for each component
+- Implement software composition analysis in CI/CD
+
+A07:2021 - Identification and Authentication Failures
+Description: Failures in authentication and session management.
+Indicators: Brute force attacks, credential stuffing, session hijacking
+Incident Response:
+- Lock affected accounts immediately
+- Invalidate all active sessions
+- Force password resets
+- Enable MFA for all accounts
+- Implement account lockout policies
+- Review authentication logs for scope of compromise
+
+A08:2021 - Software and Data Integrity Failures
+Description: Code and infrastructure that does not protect against integrity violations.
+Incident Response:
+- Verify integrity of all deployed artifacts
+- Review CI/CD pipeline for tampering
+- Assess supply chain for compromise
+- Implement code signing
+
+A09:2021 - Security Logging and Monitoring Failures
+Description: Insufficient logging and monitoring enables attackers to achieve their goals undetected.
+Incident Response:
+- Enable comprehensive security logging
+- Set up real-time alerting on suspicious patterns
+- Retain logs for compliance requirements
+- Review gaps in monitoring coverage
+
+A10:2021 - Server-Side Request Forgery (SSRF)
+Description: SSRF flaws occur when a web application fetches remote resources without validating user-supplied URL.
+Incident Response:
+- Block all outbound requests from affected service temporarily
+- Audit logs for internal network probing
+- Implement URL allowlisting
+- Segment internal network services
+
+OWASP API SECURITY TOP 10
+
+API1:2023 - Broken Object Level Authorization (BOLA)
+- Immediate: Audit all API endpoints for proper authorization
+- Short-term: Implement object-level authorization checks
+
+API2:2023 - Broken Authentication
+- Immediate: Revoke compromised tokens, enforce strong authentication
+
+API3:2023 - Broken Object Property Level Authorization
+- Review: Implement data filtering, remove sensitive fields from responses
+
+API4:2023 - Unrestricted Resource Consumption
+- Implement rate limiting, request size limits, pagination
+
+API5:2023 - Broken Function Level Authorization
+- Audit administrative API endpoints, enforce RBAC
+
+API6:2023 - Unrestricted Access to Sensitive Business Flows
+- Implement business flow controls, CAPTCHA, rate limiting
+
+API7:2023 - Server Side Request Forgery (SSRF)
+- Validate and sanitize all user-supplied URLs
+
+API8:2023 - Security Misconfiguration
+- Harden API gateway, remove debug endpoints, review CORS
+
+API9:2023 - Improper Inventory Management
+- Audit all API versions, deprecate old versions
+
+API10:2023 - Unsafe Consumption of APIs
+- Validate and sanitize data from third-party APIs
+
+SECURE INCIDENT RESPONSE PRACTICES
+- Always preserve chain of custody for digital evidence
+- Document all actions taken with timestamps
+- Use out-of-band communication during active incidents
+- Follow the principle of least privilege during investigation
+- Coordinate with legal and compliance teams
+- Test recovery procedures before declaring incident closed

@@ -1,0 +1,589 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 1.0.0
+  description: CyberShield AI – Agentic Incident Response Playbook Generator API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: incidents
+    description: Incident management
+  - name: playbooks
+    description: Playbook generation and review
+  - name: dashboard
+    description: Dashboard metrics
+  - name: audit
+    description: Audit logs
+  - name: reports
+    description: Incident reports
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /incidents:
+    post:
+      operationId: createIncident
+      tags: [incidents]
+      summary: Submit a new security incident
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateIncidentRequest"
+      responses:
+        "201":
+          description: Incident created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncidentResponse"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    get:
+      operationId: listIncidents
+      tags: [incidents]
+      summary: List all incidents
+      responses:
+        "200":
+          description: List of incidents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/IncidentResponse"
+
+  /incidents/{incidentId}:
+    get:
+      operationId: getIncident
+      tags: [incidents]
+      summary: Get incident by ID
+      parameters:
+        - name: incidentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Incident details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncidentResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playbooks/generate:
+    post:
+      operationId: generatePlaybook
+      tags: [playbooks]
+      summary: Trigger agentic playbook generation for an incident
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GeneratePlaybookRequest"
+      responses:
+        "200":
+          description: Playbook generated, pending review
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaybookResponse"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playbooks/approve:
+    post:
+      operationId: approvePlaybook
+      tags: [playbooks]
+      summary: Approve a generated playbook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApprovePlaybookRequest"
+      responses:
+        "200":
+          description: Playbook approved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaybookResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playbooks/reject:
+    post:
+      operationId: rejectPlaybook
+      tags: [playbooks]
+      summary: Reject a playbook with analyst feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RejectPlaybookRequest"
+      responses:
+        "200":
+          description: Playbook rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaybookResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playbooks/regenerate:
+    post:
+      operationId: regeneratePlaybook
+      tags: [playbooks]
+      summary: Regenerate playbook using analyst feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegeneratePlaybookRequest"
+      responses:
+        "200":
+          description: Playbook regenerated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaybookResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playbooks/{incidentId}:
+    get:
+      operationId: getPlaybook
+      tags: [playbooks]
+      summary: Get playbook by incident ID
+      parameters:
+        - name: incidentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Playbook details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaybookResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /dashboard/metrics:
+    get:
+      operationId: getDashboardMetrics
+      tags: [dashboard]
+      summary: Get dashboard metrics and statistics
+      responses:
+        "200":
+          description: Dashboard metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardMetrics"
+
+  /audit:
+    get:
+      operationId: getAuditLogs
+      tags: [audit]
+      summary: Get audit log entries
+      parameters:
+        - name: incidentId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: Audit logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AuditLog"
+
+  /reports/{incidentId}:
+    get:
+      operationId: getReport
+      tags: [reports]
+      summary: Get full incident report
+      parameters:
+        - name: incidentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Incident report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncidentReport"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+        version:
+          type: string
+        rag_initialized:
+          type: boolean
+        agents_ready:
+          type: boolean
+
+    CreateIncidentRequest:
+      type: object
+      required: [incident_description, analyst_name]
+      properties:
+        incident_description:
+          type: string
+          minLength: 10
+        analyst_name:
+          type: string
+        incident_source:
+          type: string
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+          default: medium
+
+    GeneratePlaybookRequest:
+      type: object
+      required: [incident_id]
+      properties:
+        incident_id:
+          type: string
+
+    ApprovePlaybookRequest:
+      type: object
+      required: [incident_id, analyst_id]
+      properties:
+        incident_id:
+          type: string
+        analyst_id:
+          type: string
+
+    RejectPlaybookRequest:
+      type: object
+      required: [incident_id, analyst_id, feedback]
+      properties:
+        incident_id:
+          type: string
+        analyst_id:
+          type: string
+        feedback:
+          type: string
+          minLength: 5
+
+    RegeneratePlaybookRequest:
+      type: object
+      required: [incident_id]
+      properties:
+        incident_id:
+          type: string
+
+    IncidentResponse:
+      type: object
+      required: [incident_id, incident_description, analyst_name, priority, status, created_at]
+      properties:
+        incident_id:
+          type: string
+        incident_description:
+          type: string
+        analyst_name:
+          type: string
+        incident_source:
+          type: string
+          nullable: true
+        priority:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+          nullable: true
+
+    PlaybookResponse:
+      type: object
+      required: [incident_id, review_status]
+      properties:
+        incident_id:
+          type: string
+        incident_type:
+          type: string
+          nullable: true
+        severity:
+          type: string
+          nullable: true
+        framework_context:
+          $ref: "#/components/schemas/FrameworkContext"
+        generated_playbook:
+          type: string
+          nullable: true
+        revised_playbook:
+          type: string
+          nullable: true
+        review_status:
+          type: string
+        reviewer_feedback:
+          type: string
+          nullable: true
+        processing_time:
+          type: number
+          nullable: true
+        generation_duration_ms:
+          type: integer
+          nullable: true
+        regeneration_attempt_count:
+          type: integer
+          nullable: true
+        approval_timestamp:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          nullable: true
+        updated_at:
+          type: string
+          nullable: true
+
+    FrameworkContext:
+      type: object
+      properties:
+        nist_phases:
+          type: array
+          items:
+            type: string
+        mitre_techniques:
+          type: array
+          items:
+            type: string
+        owasp_categories:
+          type: array
+          items:
+            type: string
+        retrieval_sources:
+          type: array
+          items:
+            type: string
+
+    DashboardMetrics:
+      type: object
+      required: [total_incidents, approved_playbooks, rejected_playbooks, pending_review, avg_generation_time_ms, recent_incidents, agent_stats]
+      properties:
+        total_incidents:
+          type: integer
+        approved_playbooks:
+          type: integer
+        rejected_playbooks:
+          type: integer
+        pending_review:
+          type: integer
+        avg_generation_time_ms:
+          type: number
+        recent_incidents:
+          type: array
+          items:
+            $ref: "#/components/schemas/RecentIncidentItem"
+        agent_stats:
+          $ref: "#/components/schemas/AgentStats"
+
+    RecentIncidentItem:
+      type: object
+      required: [incident_id, description, status, created_at]
+      properties:
+        incident_id:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        priority:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+
+    AgentStats:
+      type: object
+      properties:
+        classifier_runs:
+          type: integer
+        mapper_runs:
+          type: integer
+        rag_runs:
+          type: integer
+        generator_runs:
+          type: integer
+        reviewer_runs:
+          type: integer
+        regenerator_runs:
+          type: integer
+
+    AuditLog:
+      type: object
+      required: [id, incident_id, agent_name, timestamp]
+      properties:
+        id:
+          type: string
+        incident_id:
+          type: string
+        agent_name:
+          type: string
+        timestamp:
+          type: string
+        model_used:
+          type: string
+          nullable: true
+        input_summary:
+          type: string
+          nullable: true
+        output_summary:
+          type: string
+          nullable: true
+        processing_time_ms:
+          type: integer
+          nullable: true
+        approval_status:
+          type: string
+          nullable: true
+
+    IncidentReport:
+      type: object
+      required: [incident_id, incident_summary]
+      properties:
+        incident_id:
+          type: string
+        incident_summary:
+          type: string
+        analyst_name:
+          type: string
+          nullable: true
+        classification:
+          type: string
+          nullable: true
+        severity:
+          type: string
+          nullable: true
+        nist_mapping:
+          type: array
+          items:
+            type: string
+        mitre_mapping:
+          type: array
+          items:
+            type: string
+        owasp_guidance:
+          type: array
+          items:
+            type: string
+        final_playbook:
+          type: string
+          nullable: true
+        approval_metadata:
+          $ref: "#/components/schemas/ApprovalMetadata"
+        audit_summary:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuditLog"
+        created_at:
+          type: string
+          nullable: true
+        approved_at:
+          type: string
+          nullable: true
+
+    ApprovalMetadata:
+      type: object
+      properties:
+        analyst_id:
+          type: string
+          nullable: true
+        approval_timestamp:
+          type: string
+          nullable: true
+        regeneration_attempts:
+          type: integer
+          nullable: true
+
+    ErrorResponse:
+      type: object
+      required: [detail]
+      properties:
+        detail:
+          type: string

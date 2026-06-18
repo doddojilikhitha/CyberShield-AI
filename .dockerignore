@@ -1,0 +1,10 @@
+**/.git
+**/node_modules
+**/dist
+**/.env
+**/*.db
+**/*.pyc
+**/__pycache__
+**/venv
+**/chroma_db
+**/temp_reports

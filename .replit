@@ -1,0 +1,8 @@
+modules = ["python-3.12"]
+run = "python artifacts/api-server/main.py"
+
+[packager]
+language = "python3"
+
+[interpreter]
+run = "python artifacts/api-server/main.py"

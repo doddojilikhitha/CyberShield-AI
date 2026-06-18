@@ -1,0 +1,108 @@
+MITRE ATT&CK Framework - Enterprise Tactics and Techniques
+
+INITIAL ACCESS (TA0001)
+T1566 - Phishing: Adversaries send malicious emails to gain access
+  T1566.001 - Spearphishing Attachment: Malicious email attachments
+  T1566.002 - Spearphishing Link: Malicious links in emails
+T1190 - Exploit Public-Facing Application: Exploit vulnerabilities in internet-facing apps
+T1133 - External Remote Services: Exploit VPN, RDP, Citrix
+T1078 - Valid Accounts: Use stolen credentials for initial access
+T1195 - Supply Chain Compromise: Compromise software or hardware supply chain
+
+EXECUTION (TA0002)
+T1059 - Command and Scripting Interpreter: Use scripts/commands
+  T1059.001 - PowerShell: Use PowerShell for malicious execution
+  T1059.003 - Windows Command Shell: Use cmd.exe
+  T1059.007 - JavaScript: Use JS for malicious execution
+T1053 - Scheduled Task/Job: Create scheduled tasks for persistence
+T1204 - User Execution: Require user to execute malicious code
+
+PERSISTENCE (TA0003)
+T1547 - Boot or Logon Autostart Execution
+T1543 - Create or Modify System Process
+T1136 - Create Account: Create new accounts for persistence
+T1098 - Account Manipulation: Modify existing accounts
+T1505 - Server Software Component: Web shells for persistence
+
+PRIVILEGE ESCALATION (TA0004)
+T1068 - Exploitation for Privilege Escalation
+T1055 - Process Injection: Inject code into processes
+T1134 - Access Token Manipulation
+T1484 - Domain Policy Modification
+
+DEFENSE EVASION (TA0005)
+T1027 - Obfuscated Files or Information
+T1055 - Process Injection
+T1218 - System Binary Proxy Execution
+T1070 - Indicator Removal on Host
+T1562 - Impair Defenses: Disable security tools
+
+CREDENTIAL ACCESS (TA0006)
+T1003 - OS Credential Dumping: Extract credentials from OS
+  T1003.001 - LSASS Memory: Dump LSASS for credentials
+T1110 - Brute Force: Attempt to crack credentials
+T1555 - Credentials from Password Stores
+T1558 - Steal or Forge Kerberos Tickets
+
+DISCOVERY (TA0007)
+T1082 - System Information Discovery
+T1083 - File and Directory Discovery
+T1046 - Network Service Scanning
+T1018 - Remote System Discovery
+T1087 - Account Discovery
+
+LATERAL MOVEMENT (TA0008)
+T1021 - Remote Services: Use remote services to move laterally
+  T1021.001 - Remote Desktop Protocol (RDP)
+  T1021.002 - SMB/Windows Admin Shares
+T1550 - Use Alternate Authentication Material
+T1534 - Internal Spearphishing
+
+COLLECTION (TA0009)
+T1560 - Archive Collected Data
+T1005 - Data from Local System
+T1039 - Data from Network Shared Drive
+T1114 - Email Collection
+
+EXFILTRATION (TA0010)
+T1041 - Exfiltration Over C2 Channel
+T1048 - Exfiltration Over Alternative Protocol
+T1567 - Exfiltration Over Web Service
+
+IMPACT (TA0040)
+T1486 - Data Encrypted for Impact (Ransomware)
+T1489 - Service Stop: Stop critical services
+T1485 - Data Destruction
+T1499 - Endpoint Denial of Service
+
+INCIDENT RESPONSE GUIDANCE BY TECHNIQUE
+
+Ransomware Response (T1486):
+1. Immediately isolate affected systems from network
+2. Identify patient zero and infection vector
+3. Determine ransomware variant
+4. Check for backup availability
+5. Engage incident response team and legal counsel
+6. Do NOT pay ransom without legal consultation
+7. Restore from clean backups
+
+Credential Dumping (T1003):
+1. Force password resets for all potentially affected accounts
+2. Invalidate all active sessions and tokens
+3. Enable MFA if not already active
+4. Review privileged account activity
+5. Audit LSASS protection settings
+
+Phishing (T1566):
+1. Quarantine malicious emails
+2. Block sender domains and IPs
+3. Search for similar emails across organization
+4. Educate affected users
+5. Review email gateway rules
+
+Lateral Movement (T1021):
+1. Disable compromised accounts
+2. Review SMB/RDP access logs
+3. Segment network to contain spread
+4. Reset service account passwords
+5. Audit privileged access

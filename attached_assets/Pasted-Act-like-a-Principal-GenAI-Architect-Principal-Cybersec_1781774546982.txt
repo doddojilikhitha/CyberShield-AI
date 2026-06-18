@@ -1,0 +1,321 @@
+Act like a Principal GenAI Architect, Principal Cybersecurity Architect, Principal Software Architect, Principal AI Product Engineer, Principal DevOps Architect, Principal FastAPI Engineer, Principal React Engineer, LangGraph Expert, LangChain Expert, Replit Deployment Expert, Security Auditor, QA Lead, and Technical Reviewer.
+
+Your mission is to design, implement, and generate a complete production-ready capstone application called:
+
+CyberShield AI – Agentic Incident Response Playbook Generator
+
+The solution must be optimized specifically for Replit deployment and execution.
+
+PROJECT OBJECTIVE
+
+Build an Agentic AI platform that assists Security Operations Center (SOC) analysts during the first 30 minutes of a cybersecurity incident by automatically generating structured incident response playbooks using OpenAI, LangGraph, LangChain, Enterprise RAG, and Human-in-the-Loop approval workflows.
+
+TECHNICAL CONSTRAINTS
+
+- Must run on Replit
+- CPU only
+- OpenAI API only
+- FastAPI backend
+- React + TypeScript frontend
+- LangGraph mandatory
+- LangChain mandatory
+- ChromaDB mandatory
+- SQLite mandatory
+- Enterprise RAG mandatory
+- Human Approval workflow mandatory
+- Audit Logging mandatory
+- LangSmith integration mandatory
+- Production-ready architecture
+- Capstone scope (avoid unnecessary enterprise complexity)
+
+USER WORKFLOW
+
+1. Analyst submits incident description.
+2. Incident Classifier Agent analyzes incident.
+3. Framework Mapper Agent maps incident to:
+   - NIST
+   - MITRE ATT&CK
+   - OWASP
+4. RAG Retrieval Agent retrieves supporting guidance.
+5. Playbook Generator Agent creates response playbook.
+6. Compliance Reviewer Agent validates output.
+7. Human Review stage.
+8. Analyst can:
+   - Approve
+   - Reject
+9. If rejected:
+   - Feedback is captured
+   - Playbook Regeneration Agent creates improved version
+10. Approved playbooks are stored.
+11. Report generation is available.
+
+MANDATORY AGENTS
+
+1. Incident Classifier Agent
+2. Framework Mapper Agent
+3. RAG Retrieval Agent
+4. Playbook Generator Agent
+5. Compliance Reviewer Agent
+6. Playbook Regeneration Agent
+
+LANGGRAPH REQUIREMENTS
+
+Create a complete LangGraph implementation including:
+
+- StateGraph architecture
+- Conditional routing
+- Human approval node
+- Retry handling
+- Error recovery
+- Checkpointing
+- Agent orchestration
+- Typed state management
+
+Define IncidentState with:
+
+- incident_id
+- incident_description
+- incident_type
+- severity
+- framework_context
+- generated_playbook
+- revised_playbook
+- review_status
+- reviewer_feedback
+- processing_time
+- audit_events
+- analyst_id
+- created_at
+- updated_at
+- approval_timestamp
+- generation_duration_ms
+- regeneration_attempt_count
+
+ENTERPRISE RAG REQUIREMENTS
+
+Knowledge Sources:
+
+- NIST Incident Response Guide
+- MITRE ATT&CK curated subset
+- OWASP security guidance
+
+Support:
+
+- PDF ingestion
+- TXT ingestion
+
+Implement:
+
+- PyPDFLoader
+- TextLoader
+- RecursiveCharacterTextSplitter
+- OpenAIEmbeddings
+- ChromaDB
+- Similarity search
+- Relevance filtering
+- Retrieval scoring
+- Retrieval evaluation metrics
+
+FASTAPI BACKEND REQUIREMENTS
+
+Generate complete production-ready code for:
+
+POST /incidents
+POST /playbooks/generate
+POST /playbooks/approve
+POST /playbooks/reject
+POST /playbooks/regenerate
+GET /dashboard/metrics
+GET /audit
+GET /reports/{incident_id}
+GET /health
+
+Include:
+
+- Pydantic v2 models
+- Dependency injection
+- Validation
+- Middleware
+- Exception handling
+- Logging
+- OpenAPI documentation
+- Repository pattern
+
+REACT + TYPESCRIPT FRONTEND
+
+Create complete frontend implementation.
+
+Pages:
+
+Dashboard
+- Total Incidents
+- Approved Playbooks
+- Rejected Playbooks
+- Average Generation Time
+- Recent Activity
+- Agent Statistics
+
+Incident Submission
+- Incident Description
+- Analyst Name
+- Incident Source
+- Priority
+
+Playbook Review
+- Approve
+- Reject
+- Feedback
+- Regenerate
+- Generate Report
+
+Report Page
+- Incident Summary
+- Classification
+- Severity
+- NIST Mapping
+- MITRE Mapping
+- OWASP Guidance
+- Final Playbook
+- Approval Metadata
+- Audit Summary
+
+Export:
+- PDF Download
+
+AUDIT REQUIREMENTS
+
+Store:
+
+- Incident ID
+- Agent Name
+- Timestamp
+- Model Used
+- Input Summary
+- Output Summary
+- Processing Time
+- Approval Status
+
+OBSERVABILITY
+
+Implement:
+
+- Structured Logging
+- LangSmith Tracing
+- Agent Metrics
+- Workflow Metrics
+- Error Metrics
+- Dashboard Metrics
+
+TESTING REQUIREMENTS
+
+Generate:
+
+- Unit Tests
+- Integration Tests
+- API Tests
+- LangGraph Tests
+- Prompt Regression Tests
+- RAG Evaluation Tests
+- End-to-End Tests
+
+Required E2E Flows:
+
+1. Incident → Playbook
+2. Incident → Reject → Regenerate
+3. Incident → Approve
+4. Incident → Report Generation
+
+SECURITY REQUIREMENTS
+
+Implement:
+
+- Input validation
+- Prompt injection protection
+- Output validation
+- Secure secret handling
+- Environment variable management
+- Rate limiting
+- Audit logging
+- Security headers
+
+REPLIT DEPLOYMENT REQUIREMENTS
+
+Generate:
+
+- Complete Replit project structure
+- replit.nix configuration
+- .replit configuration
+- requirements.txt
+- package.json
+- Render alternative deployment option
+- Dockerfile
+- docker-compose.yml
+- Environment variable setup
+- Production startup commands
+
+PROJECT STRUCTURE
+
+/backend
+/frontend
+/agents
+/prompts
+/rag_data
+/tests
+/docs
+/deployment
+
+Store all prompts inside /prompts.
+
+OUTPUT FORMAT
+
+Generate the project in the following order:
+
+1. Executive Summary
+2. Architecture Diagram (Mermaid)
+3. Component Architecture
+4. Data Flow Diagram
+5. LangGraph Workflow Diagram
+6. Folder Structure
+7. Database Schema
+8. Backend Source Code
+9. Frontend Source Code
+10. Agent Implementations
+11. Agent Prompts
+12. RAG Pipeline
+13. Audit System
+14. Observability System
+15. Testing Suite
+16. CI/CD Pipeline
+17. Replit Deployment Configuration
+18. Docker Configuration
+19. README.md
+20. API Documentation
+21. Setup Instructions
+22. Security Review
+23. Production Readiness Checklist
+24. Gamma Presentation Outline
+
+CODE GENERATION RULES
+
+- Generate complete files, not pseudocode.
+- Do not omit code sections.
+- Include imports.
+- Include comments where necessary.
+- Ensure all code is executable.
+- Follow clean architecture principles.
+- Follow SOLID principles.
+- Follow Python and TypeScript best practices.
+- Optimize for maintainability and readability.
+- Ensure compatibility with Replit free-tier constraints.
+
+Before producing the final answer:
+
+1. Verify all mandatory requirements are implemented.
+2. Verify all agents are included.
+3. Verify all APIs are implemented.
+4. Verify all pages are implemented.
+5. Verify all tests are included.
+6. Verify deployment artifacts are included.
+7. Verify the application is runnable on Replit.
+
+Take a deep breath and work on this problem step-by-step.
