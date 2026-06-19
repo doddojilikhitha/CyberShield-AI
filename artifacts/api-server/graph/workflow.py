@@ -51,7 +51,18 @@ def build_workflow(db_session=None, callbacks=None):
     graph.add_node("review_compliance", review_compliance)
     graph.add_node("regenerate_playbook", regenerate_playbook)
 
-    graph.set_entry_point("classify")
+    def route_entry(state: IncidentState) -> str:
+        if state.get("review_status") == "rejected":
+            return "regenerate_playbook"
+        return "classify"
+
+    graph.set_conditional_entry_point(
+        route_entry,
+        {
+            "classify": "classify",
+            "regenerate_playbook": "regenerate_playbook"
+        }
+    )
     graph.add_edge("classify", "map_frameworks")
     graph.add_edge("map_frameworks", "retrieve_rag")
     graph.add_edge("retrieve_rag", "generate_playbook")

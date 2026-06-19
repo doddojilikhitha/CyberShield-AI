@@ -204,7 +204,7 @@ def regenerate_playbook(body: RegeneratePlaybookRequest, db: Session = Depends(g
     update_incident_status(db, body.incident_id, "processing")
 
     try:
-        from graph.workflow import run_generation_workflow
+        from graph.workflow import run_regeneration_workflow
 
         fc = row.get("framework_context")
         if isinstance(fc, str):
@@ -220,7 +220,7 @@ def regenerate_playbook(body: RegeneratePlaybookRequest, db: Session = Depends(g
             "reviewer_feedback": row.get("reviewer_feedback"),
             "regeneration_attempt_count": row.get("regeneration_attempt_count", 0),
         }
-        result = run_generation_workflow(incident_data, db)
+        result = run_regeneration_workflow(incident_data, db)
 
         framework_context = result.get("framework_context") or fc or {}
         duration_ms = result.get("generation_duration_ms", 0)
