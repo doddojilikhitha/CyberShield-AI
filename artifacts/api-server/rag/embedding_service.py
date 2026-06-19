@@ -4,9 +4,14 @@ from openai import OpenAI
 
 class OpenAIEmbeddingService:
     def __init__(self):
-        self.api_key = os.getenv("OPENAI_API_KEY")
-        self.client = OpenAI(api_key=self.api_key) if self.api_key else None
+        # Look for dedicated embedding variables first, fallback to standard OpenAI
+        self.api_key = os.getenv("EMBEDDING_API_KEY") or os.getenv("OPENAI_API_KEY")
+        base_url = os.getenv("EMBEDDING_BASE_URL")
+        
+        # Initialize client with dedicated base URL override if supplied
+        self.client = OpenAI(api_key=self.api_key, base_url=base_url) if self.api_key else None
         self.model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
+
 
     def get_embedding(self, text: str) -> list[float]:
         """Generate embedding for a single text chunk."""
