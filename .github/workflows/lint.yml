@@ -41,9 +41,12 @@ jobs:
       with:
         node-version: '20'
         
-    - name: Install dependencies
+    - name: Install dependencies and build shared libraries
       run: |
-        npm install --prefix artifacts/cybershield
+        cd lib/api-zod && npm install --legacy-peer-deps
+        cd ../api-client-react && npm install --legacy-peer-deps && npx tsc
+        cd ../../artifacts/cybershield && npm install --legacy-peer-deps
         
     - name: Run TypeScript validation
-      run: npm run typecheck --prefix artifacts/cybershield
+      run: |
+        cd artifacts/cybershield && npm run typecheck

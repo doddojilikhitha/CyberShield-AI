@@ -21,8 +21,8 @@ jobs:
       run: |
         # In a real environment, we'd install and run build for workspace packages.
         # This acts as the validation that esbuild and typechecks build.
-        npm install --prefix artifacts/api-server
-        npm run build --prefix artifacts/api-server
-        
-        npm install --prefix artifacts/cybershield
-        npm run build --prefix artifacts/cybershield
+        cd lib/api-zod && npm install --legacy-peer-deps
+        cd ../db && npm install --legacy-peer-deps
+        cd ../api-client-react && npm install --legacy-peer-deps && npx tsc
+        cd ../../artifacts/api-server && npm install --legacy-peer-deps && npm run build
+        cd ../cybershield && npm install --legacy-peer-deps && npm run build

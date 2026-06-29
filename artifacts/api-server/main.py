@@ -1,3 +1,4 @@
+# ruff: noqa: E402
 import os
 import logging
 import sys

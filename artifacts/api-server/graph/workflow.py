@@ -1,5 +1,5 @@
 import logging
-from typing import Literal, cast, Any
+from typing import Literal, cast
 
 from langgraph.graph import StateGraph, END
 
@@ -26,22 +26,32 @@ def build_workflow(db_session=None, callbacks=None):
     cb = callbacks or []
 
     def classify(state: IncidentState) -> IncidentState:
-        return cast(IncidentState, run_incident_classifier(cast(dict, state), db_session, cb))
+        return cast(
+            IncidentState, run_incident_classifier(cast(dict, state), db_session, cb)
+        )
 
     def map_frameworks(state: IncidentState) -> IncidentState:
-        return cast(IncidentState, run_framework_mapper(cast(dict, state), db_session, cb))
+        return cast(
+            IncidentState, run_framework_mapper(cast(dict, state), db_session, cb)
+        )
 
     def retrieve_rag(state: IncidentState) -> IncidentState:
         return cast(IncidentState, run_rag_retrieval(cast(dict, state), db_session))
 
     def generate_playbook(state: IncidentState) -> IncidentState:
-        return cast(IncidentState, run_playbook_generator(cast(dict, state), db_session, cb))
+        return cast(
+            IncidentState, run_playbook_generator(cast(dict, state), db_session, cb)
+        )
 
     def review_compliance(state: IncidentState) -> IncidentState:
-        return cast(IncidentState, run_compliance_reviewer(cast(dict, state), db_session, cb))
+        return cast(
+            IncidentState, run_compliance_reviewer(cast(dict, state), db_session, cb)
+        )
 
     def regenerate_playbook(state: IncidentState) -> IncidentState:
-        return cast(IncidentState, run_playbook_regenerator(cast(dict, state), db_session, cb))
+        return cast(
+            IncidentState, run_playbook_regenerator(cast(dict, state), db_session, cb)
+        )
 
     graph = StateGraph(IncidentState)
     graph.add_node("classify", classify)
@@ -58,10 +68,7 @@ def build_workflow(db_session=None, callbacks=None):
 
     graph.set_conditional_entry_point(
         route_entry,
-        {
-            "classify": "classify",
-            "regenerate_playbook": "regenerate_playbook"
-        }
+        {"classify": "classify", "regenerate_playbook": "regenerate_playbook"},
     )
     graph.add_edge("classify", "map_frameworks")
     graph.add_edge("map_frameworks", "retrieve_rag")
@@ -126,9 +133,12 @@ def run_regeneration_workflow(incident_data: dict, db_session=None) -> dict:
     callbacks = _make_tracer(incident_id, db_session)
     workflow = build_workflow(db_session, callbacks)
 
-    initial_state = cast(IncidentState, {
-        **incident_data,
-        "review_status": "rejected",
-    })
+    initial_state = cast(
+        IncidentState,
+        {
+            **incident_data,
+            "review_status": "rejected",
+        },
+    )
     result = workflow.invoke(initial_state)
     return dict(result)
